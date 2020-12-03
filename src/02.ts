@@ -24,13 +24,13 @@ How many passwords are valid according to their policies?
 
  */
 
-export type Input = [min:number, max:number, letter:string, password:string]
+export type Input = [min: number, max: number, letter: string, password: string]
 
-export const isValid = (input:Input) => {
+export const isValid = (input: Input) => {
     const [min, max, letter, password] = input
     const pattern = new RegExp(letter)
     // all the inputs seem to have a minimum range of 1
-    if (!pattern.test(password)) return false 
+    if (!pattern.test(password)) return false
 
     const passwordList = password.split('')
     let count = 0
@@ -46,7 +46,7 @@ export const isValid = (input:Input) => {
     return false
 }
 
-export const howManyValid = (inputs:Array<Input>) => {
+export const howManyValid = (inputs: Array<Input>) => {
     // brute force
     // loop through each item
     let valid = 0
