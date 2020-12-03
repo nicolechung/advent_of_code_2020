@@ -30,8 +30,13 @@ export const isValid = (input: Input) => {
     const [min, max, letter, password] = input
     const pattern = new RegExp(letter)
     // all the inputs seem to have a minimum range of 1
+    // do a check to save on running the loop after this
     if (!pattern.test(password)) return false
-
+    if (!password) {
+        return
+    }
+    
+    // wonder if this would be faster with sorting the password first?
     const passwordList = password.split('')
     let count = 0
     for (let i = 0; i < passwordList.length; i++) {
@@ -46,6 +51,8 @@ export const isValid = (input: Input) => {
     return false
 }
 
+
+
 export const howManyValid = (inputs: Array<Input>) => {
     // brute force
     // loop through each item
@@ -59,3 +66,19 @@ export const howManyValid = (inputs: Array<Input>) => {
     }
     return valid
 }
+
+import fs from 'fs';
+
+const file = fs.readFileSync(`${__dirname}/02.txt`, 'utf8');
+
+const inputs = file
+  .split('\n')
+  .map((line:string) => {
+    if (!line.length) null
+
+    const [min, max, letter, , password] = line.split(/-|:|\s/)
+    const input = [parseInt(min, 10), parseInt(max, 10), letter, password] as Input
+    return input
+  }) 
+
+export const answer = howManyValid(inputs)
