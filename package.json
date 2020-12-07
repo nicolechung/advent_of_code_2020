@@ -17,7 +17,8 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "prettier": "prettier"
   },
   "peerDependencies": {},
   "husky": {
@@ -44,6 +45,10 @@
       "limit": "10 KB"
     }
   ],
+  "resolutions": {
+    "**/@typescript-eslint/eslint-plugin": "^4.1.1",
+    "**/@typescript-eslint/parser": "^4.1.1"
+  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.9.0",
     "husky": "^4.3.0",
