@@ -59,9 +59,6 @@ Starting at the top-left corner of your map and following a slope of right 3 and
 
 import fs from 'fs';
 
-const RIGHT = 3;
-const DOWN = 1;
-
 export const createMap: (input: string) => string[][] = (input: string) => {
   const lines = input.split('\n');
   return lines.map((line: string) => {
@@ -85,6 +82,8 @@ export const getWidth = (map: string[][]) => {
 };
 
 export const moveAndCount = (map: string[][]) => {
+  const RIGHT = 3;
+  const DOWN = 1;
   const height = getHeight(map);
   const results = [];
   let [x, y] = [0, 0];
@@ -99,6 +98,38 @@ export const moveAndCount = (map: string[][]) => {
   return results.filter(tree => tree === '#').length;
 };
 
+export const moveAndCountForSlope = (map: string[][], slope: number[]) => {
+  const [right, down] = slope;
+  const height = getHeight(map);
+  const results = [];
+  let [x, y] = [0, 0];
+  while (results.length < height - 1 && y + down < height) {
+    x += right;
+    y += down;
+
+    // map[row][column] so have to flip x,y
+    const col = x % map[0].length;
+    results.push(map[y][col]);
+  }
+  return results.filter(tree => tree === '#').length;
+};
+
+export const product = (map: string[][], slopes: number[][]) => {
+  const trees = [];
+  for (let i = 0; i < slopes.length; i++) {
+    const slope = slopes[i];
+    trees.push(moveAndCountForSlope(map, slope));
+  }
+  return trees.reduce((a, b) => a * b);
+};
 const file = fs.readFileSync(`${__dirname}/03.txt`, 'utf8');
 const map = createMap(file);
+const slopes = [
+  [1, 1],
+  [3, 1],
+  [5, 1],
+  [7, 1],
+  [1, 2],
+];
 export const answer = moveAndCount(map);
+export const partTwoAnswer = product(map, slopes);
